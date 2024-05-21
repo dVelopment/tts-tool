@@ -28,6 +28,7 @@ async function run() {
     let charactersSent = 0;
 
     const chunks = [];
+    const numberOfSentences = sentences.length;
 
     // split into chunks of <= 4096 characters
     while (sentences.length > 0) {
@@ -45,7 +46,7 @@ async function run() {
 
     console.log(
         'full input has %d sentences and will be sent in %d chunks.',
-        sentences.length,
+        numberOfSentences,
         chunks.length,
     );
 
