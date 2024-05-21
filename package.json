@@ -1,0 +1,21 @@
+{
+  "name": "tts-tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "openai": "^4.47.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@bondvet/eslint-config-typescript": "^1.4.6",
+    "@bondvet/prettier-config": "^1.4.6",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  }
+}
