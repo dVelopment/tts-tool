@@ -29,6 +29,7 @@ async function run() {
 
     const chunks = [];
 
+    // split into chunks of <= 4096 characters
     while (sentences.length > 0) {
         let input = '';
 
@@ -48,11 +49,10 @@ async function run() {
         chunks.length,
     );
 
+    // start generating audio
     for (let i = 0; i < chunks.length; i += 1) {
         const input = chunks[i];
         charactersSent += input.length;
-
-        const tmpFile = resolve(process.cwd(), `tmp_output_${i}.${format}`);
 
         console.log(
             'sending chunk #%d with %d characters (%d of %d total characters done)',
@@ -70,6 +70,8 @@ async function run() {
             response_format: format,
         });
 
+        // write to tmp file
+        const tmpFile = resolve(process.cwd(), `tmp_output_${i}.${format}`);
         await writeFile(tmpFile, Buffer.from(await audio.arrayBuffer()));
 
         generatedFiles.push(tmpFile);
@@ -77,10 +79,13 @@ async function run() {
         console.log('audio #%d created', i);
     }
 
+    // concat files, if necessary
     const finalFile = resolve(process.cwd(), `output.${format}`);
+
     if (generatedFiles.length > 1) {
         console.log('concatenating %d files', generatedFiles.length);
 
+        // concat using ffmpeg
         await spawnSync('ffmpeg', [
             '-i',
             `concat:${generatedFiles.join('|')}`,
@@ -89,8 +94,10 @@ async function run() {
             finalFile,
         ]);
 
+        // remove tmp files
         await spawnSync('rm', generatedFiles);
     } else {
+        // only 1 file => just rename it
         await rename(generatedFiles[0], finalFile);
     }
 
