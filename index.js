@@ -11,9 +11,9 @@ const format = 'aac';
 const INPUT_LIMIT = 4096;
 
 async function run() {
-    const file = resolve(process.cwd(), 'input.txt');
+    const file = resolve(process.cwd(), 'input.md');
     if (!existsSync(file)) {
-        throw new Error('input.txt does not exist');
+        throw new Error('input.md does not exist');
     }
 
     const fullInput = await readFile(file, 'utf-8');
@@ -88,6 +88,7 @@ async function run() {
 
         // concat using ffmpeg
         await spawnSync('ffmpeg', [
+            '-y',
             '-i',
             `concat:${generatedFiles.join('|')}`,
             '-c',

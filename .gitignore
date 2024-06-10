@@ -3,4 +3,5 @@ node_modules
 output*
 tmp_output*
 input*
-
+*.mp3
+*.aac
